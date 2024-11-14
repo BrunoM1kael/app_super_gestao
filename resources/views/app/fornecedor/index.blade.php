@@ -3,11 +3,6 @@
 @section('titulo', 'Fornecedor') {{-- Puxa o nome do controller. --}}
 
 @section('conteudo')
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">
@@ -22,6 +17,7 @@
         </div>
 
         <div class="informacao-pagina">
+            {{$msg ?? ''}}
             <div style="width: 30%; margin-left: auto; margin-right: auto; text-align: left;">
                 <form method="post" action="{{ route ('app.fornecedor.listar')}}">
                     @csrf

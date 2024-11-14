@@ -3,11 +3,6 @@
 @section('titulo', 'Fornecedor') {{-- Puxa o nome do controller. --}}
 
 @section('conteudo')
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">

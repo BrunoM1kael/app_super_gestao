@@ -15,17 +15,17 @@ class FornecedorController extends Controller
     public function listar(Request $request)
     {
 
-        $fornecedores = Fornecedor::where('nome', 'like', '%' . $request->input('nome') . '%')
+        $fornecedores = Fornecedor::with(['produtos'])->where('nome', 'like', '%' . $request->input('nome') . '%')
             ->where('site', 'like', '%' . $request->input('site') . '%')
             ->where('uf', 'like', '%' . $request->input('uf') . '%')
             ->where('email', 'like', '%' . $request->input('email') . '%')
-            ->get();
+            ->paginate(5);
 
 
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores]);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
     }
 
-    public function adicionar(Request $request)
+    public function adicionar(Request $request, $msg = '')
     {
         //adicionar  
         if ($request->input('_token') != '' && $request->input('id') == '') {
@@ -64,7 +64,7 @@ class FornecedorController extends Controller
                 $msg = 'Erro ao tentar atualizar o registro';
             }
 
-        return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msg' => $msg]);
+            return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msg' => $msg]);
         }
 
         return view('app.fornecedor.adicionar', ['id' => $request->input('id'), 'msg' => $msg]);
@@ -75,5 +75,10 @@ class FornecedorController extends Controller
         $fornecedor = Fornecedor::find($id);
 
         return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msg' => $msg]);
+    }
+    public function excluir($id) {
+       Fornecedor::find($id)->delete();
+
+       return redirect()->route('app.fornecedor');
     }
 }
